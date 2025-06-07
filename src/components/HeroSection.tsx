@@ -1,4 +1,3 @@
-
 import { Download, Github, Linkedin, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
@@ -27,11 +26,12 @@ const HeroSection = () => {
             <div className="flex flex-col sm:flex-row gap-4">
               <Button 
                 className="bg-portfolio-red hover:bg-portfolio-red-hover text-white font-montserrat font-semibold px-8 py-3 text-base"
-                onClick={() => window.open('#', '_blank')}
+                onClick={() => window.open('https://docs.google.com/document/d/17hGd-fM108Kkv1--JZhZrLqh389RF4pP/edit?usp=sharing&ouid=113893728209573717462&rtpof=true&sd=true', '_blank')}
               >
                 <Download className="mr-2 h-5 w-5" />
                 Download My CV
               </Button>
+              
               
               <div className="flex space-x-4">
                 <Button
@@ -62,7 +62,7 @@ const HeroSection = () => {
             </div>
           </div>
 
-          {/* Profile Image */}
+          
           <div className="flex justify-center lg:justify-end">
             <div className="w-80 h-80 bg-gradient-to-br from-portfolio-red to-portfolio-red-hover rounded-full flex items-center justify-center shadow-2xl p-2">
               <Avatar className="w-72 h-72">
