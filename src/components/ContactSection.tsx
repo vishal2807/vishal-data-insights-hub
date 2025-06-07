@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Mail, Phone, Linkedin, Github, Send, MapPin } from 'lucide-react';
+import { Mail, Phone, Linkedin, Github, Send, MapPin, Copy, Check } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 const ContactSection = () => {
@@ -15,12 +15,17 @@ const ContactSection = () => {
     subject: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [copiedEmail, setCopiedEmail] = useState(false);
   const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
     
-    // Simulate form submission
+    // Simulate form submission delay
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
     toast({
       title: "Message Sent!",
       description: "Thank you for your message. I'll get back to you soon.",
@@ -28,6 +33,7 @@ const ContactSection = () => {
     
     // Reset form
     setFormData({ name: '', email: '', subject: '', message: '' });
+    setIsSubmitting(false);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -37,12 +43,27 @@ const ContactSection = () => {
     }));
   };
 
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText('vishalbachal0703@gmail.com');
+      setCopiedEmail(true);
+      toast({
+        title: "Email Copied!",
+        description: "vishalbachal0703@gmail.com has been copied to your clipboard.",
+      });
+      setTimeout(() => setCopiedEmail(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy email:', err);
+    }
+  };
+
   const contactInfo = [
     {
       icon: <Mail className="h-5 w-5 text-portfolio-red" />,
       label: "Email",
       value: "vishalbachal0703@gmail.com",
-      link: "mailto:vishalbachal0703@gmail.com"
+      link: "mailto:vishalbachal0703@gmail.com",
+      copyable: true
     },
     {
       icon: <Phone className="h-5 w-5 text-portfolio-red" />,
@@ -71,7 +92,7 @@ const ContactSection = () => {
   ];
 
   return (
-    <section id="contact" className="py-20 bg-portfolio-gray">
+    <section id="contact" className="py-20 bg-portfolio-gray scroll-animate">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="font-montserrat font-bold text-4xl md:text-5xl text-portfolio-black mb-4">
@@ -83,9 +104,9 @@ const ContactSection = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-          {/* Contact Form */}
+          {/* Enhanced Contact Form */}
           <div className="lg:col-span-2">
-            <Card className="border-0 shadow-lg">
+            <Card className="border-0 shadow-xl hover:shadow-2xl transition-shadow duration-300">
               <CardContent className="p-8">
                 <h3 className="font-montserrat font-bold text-2xl text-portfolio-black mb-6">
                   Send Me a Message
@@ -102,7 +123,8 @@ const ContactSection = () => {
                         value={formData.name}
                         onChange={handleChange}
                         required
-                        className="mt-2 border-gray-300 focus:border-portfolio-red focus:ring-portfolio-red"
+                        disabled={isSubmitting}
+                        className="mt-2 border-gray-300 focus:border-portfolio-red focus:ring-portfolio-red transition-all duration-300"
                         placeholder="Your full name"
                       />
                     </div>
@@ -117,7 +139,8 @@ const ContactSection = () => {
                         value={formData.email}
                         onChange={handleChange}
                         required
-                        className="mt-2 border-gray-300 focus:border-portfolio-red focus:ring-portfolio-red"
+                        disabled={isSubmitting}
+                        className="mt-2 border-gray-300 focus:border-portfolio-red focus:ring-portfolio-red transition-all duration-300"
                         placeholder="your.email@example.com"
                       />
                     </div>
@@ -132,7 +155,8 @@ const ContactSection = () => {
                       value={formData.subject}
                       onChange={handleChange}
                       required
-                      className="mt-2 border-gray-300 focus:border-portfolio-red focus:ring-portfolio-red"
+                      disabled={isSubmitting}
+                      className="mt-2 border-gray-300 focus:border-portfolio-red focus:ring-portfolio-red transition-all duration-300"
                       placeholder="What's this about?"
                     />
                   </div>
@@ -146,56 +170,78 @@ const ContactSection = () => {
                       value={formData.message}
                       onChange={handleChange}
                       required
+                      disabled={isSubmitting}
                       rows={6}
-                      className="mt-2 border-gray-300 focus:border-portfolio-red focus:ring-portfolio-red resize-none"
+                      className="mt-2 border-gray-300 focus:border-portfolio-red focus:ring-portfolio-red resize-none transition-all duration-300"
                       placeholder="Tell me about your project or how I can help..."
                     />
                   </div>
                   <Button
                     type="submit"
-                    className="w-full bg-portfolio-red hover:bg-portfolio-red-hover text-white font-montserrat font-semibold py-3"
+                    disabled={isSubmitting}
+                    className="w-full bg-portfolio-red hover:bg-portfolio-red-hover text-white font-montserrat font-semibold py-3 transition-all duration-300 hover:scale-105 hover:shadow-lg disabled:hover:scale-100"
                   >
-                    <Send className="w-5 h-5 mr-2" />
-                    Send Message
+                    {isSubmitting ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-5 h-5 mr-2" />
+                        Send Message
+                      </>
+                    )}
                   </Button>
                 </form>
               </CardContent>
             </Card>
           </div>
 
-          {/* Contact Information */}
+          {/* Enhanced Contact Information */}
           <div className="space-y-8">
-            <Card className="border-0 shadow-lg">
+            <Card className="border-0 shadow-xl hover:shadow-2xl transition-shadow duration-300">
               <CardContent className="p-8">
                 <h3 className="font-montserrat font-bold text-2xl text-portfolio-black mb-6">
                   Contact Information
                 </h3>
                 <div className="space-y-4">
                   {contactInfo.map((item, index) => (
-                    <a
-                      key={index}
-                      href={item.link}
-                      target={item.link.startsWith('http') ? '_blank' : '_self'}
-                      rel={item.link.startsWith('http') ? 'noopener noreferrer' : ''}
-                      className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200 group"
-                    >
-                      {item.icon}
-                      <div>
-                        <p className="font-lato font-semibold text-sm text-gray-600">
-                          {item.label}
-                        </p>
-                        <p className="font-lato text-portfolio-black group-hover:text-portfolio-red transition-colors duration-200">
-                          {item.value}
-                        </p>
-                      </div>
-                    </a>
+                    <div key={index} className="flex items-center justify-between space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200 group">
+                      <a
+                        href={item.link}
+                        target={item.link.startsWith('http') ? '_blank' : '_self'}
+                        rel={item.link.startsWith('http') ? 'noopener noreferrer' : ''}
+                        className="flex items-center space-x-3 flex-1"
+                      >
+                        {item.icon}
+                        <div>
+                          <p className="font-lato font-semibold text-sm text-gray-600">
+                            {item.label}
+                          </p>
+                          <p className="font-lato text-portfolio-black group-hover:text-portfolio-red transition-colors duration-200">
+                            {item.value}
+                          </p>
+                        </div>
+                      </a>
+                      {item.copyable && (
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={copyEmail}
+                          className="text-gray-400 hover:text-portfolio-red hover:bg-red-50 transition-all duration-200"
+                        >
+                          {copiedEmail ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                        </Button>
+                      )}
+                    </div>
                   ))}
                 </div>
               </CardContent>
             </Card>
 
-            {/* Location */}
-            <Card className="border-0 shadow-lg">
+            {/* Enhanced Location Card */}
+            <Card className="border-0 shadow-xl hover:shadow-2xl transition-shadow duration-300">
               <CardContent className="p-8">
                 <h3 className="font-montserrat font-bold text-xl text-portfolio-black mb-4">
                   <MapPin className="inline w-5 h-5 mr-2 text-portfolio-red" />
