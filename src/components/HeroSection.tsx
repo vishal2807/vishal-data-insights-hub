@@ -1,6 +1,7 @@
 
 import { Download, Github, Linkedin, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
 const HeroSection = () => {
   return (
@@ -61,14 +62,19 @@ const HeroSection = () => {
             </div>
           </div>
 
-          {/* Profile Image Placeholder */}
+          {/* Profile Image */}
           <div className="flex justify-center lg:justify-end">
-            <div className="w-80 h-80 bg-gradient-to-br from-portfolio-red to-portfolio-red-hover rounded-full flex items-center justify-center shadow-2xl">
-              <div className="w-72 h-72 bg-white rounded-full flex items-center justify-center">
-                <div className="w-64 h-64 bg-gray-200 rounded-full flex items-center justify-center">
-                  <span className="font-montserrat font-bold text-4xl text-gray-600">VB</span>
-                </div>
-              </div>
+            <div className="w-80 h-80 bg-gradient-to-br from-portfolio-red to-portfolio-red-hover rounded-full flex items-center justify-center shadow-2xl p-2">
+              <Avatar className="w-72 h-72">
+                <AvatarImage 
+                  src="/lovable-uploads/53f4a690-950c-4d44-8e40-473a40ff5c37.png" 
+                  alt="Vishal Bachal"
+                  className="object-cover"
+                />
+                <AvatarFallback className="w-full h-full bg-white flex items-center justify-center text-4xl font-montserrat font-bold text-gray-600">
+                  VB
+                </AvatarFallback>
+              </Avatar>
             </div>
           </div>
         </div>
