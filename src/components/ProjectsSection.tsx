@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -43,7 +42,7 @@ const ProjectsSection = () => {
       category: "Data Visualization",
       filterCategories: ["Data Visualization", "R Projects"],
       githubUrl: "https://github.com/vishal2807",
-      image: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=400&h=250&fit=crop"
+      image: "/lovable-uploads/393b9f91-646f-4dbf-b3e4-a8430c104c38.png"
     },
     {
       title: "Sentiment Analysis for Auto Reviews",
