@@ -6,11 +6,14 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src') // Maps `@/` to `src/`
+      '@': path.resolve(__dirname, './src') // Ensure this is still here
     }
   },
   preview: {
-    allowedHosts: ['vishal-data-insights-hub.onrender.com']
+    allowedHosts: [
+      'vishalbachal.me', // Allow your custom domain
+      'vishal-data-insights-hub.onrender.com' // Optional: Allow Render's default domain too
+    ]
   },
   server: {
     host: '0.0.0.0',
